@@ -1,5 +1,6 @@
 package com.example.noteapp;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,44 +9,45 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import java.util.ArrayList;
 
-public class NoteAdapter extends FirebaseRecyclerAdapter<Note, NoteAdapter.noteViewHolder>{
-    /**
-     * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
-     * {@link FirebaseRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
-    public NoteAdapter(@NonNull FirebaseRecyclerOptions options) {
-        super(options);
+public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
+    Context context;
+    ArrayList<Note> note;
+
+    public NoteAdapter(Context context, ArrayList<Note> note) {
+        this.context = context;
+        this.note = note;
     }
+
+
 
 
     @NonNull
     @Override
-    public noteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view
-                = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.note, parent, false);
-        return new NoteAdapter.noteViewHolder(view);
+    public NoteAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.note,parent,false));
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull noteViewHolder holder, int position, @NonNull Note model) {
-        holder.noteInfo.setText(model.getNoteInfo());
-        holder.noteHead.setText(model.getNoteHead());
+    public void onBindViewHolder(@NonNull NoteAdapter.MyViewHolder holder, int position) {
+        holder.notetv.setText(note.get(position).getNoteInfo());
+        holder.noteHeader.setText(note.get(position).getNoteHead());
 
     }
 
-    static class noteViewHolder extends RecyclerView.ViewHolder{
-        TextView noteInfo,noteHead;
-        public noteViewHolder(@NonNull View itemView) {
-            super(itemView);
-            noteHead = itemView.findViewById(R.id.textViewTitle);
-            noteInfo = itemView.findViewById(R.id.textViewDescription);
+    @Override
+    public int getItemCount() {
+        return note.size();
+    }
 
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView noteHeader,notetv;
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            noteHeader = itemView.findViewById(R.id.textViewTitle);
+            notetv = itemView.findViewById(R.id.textViewDescription);
 
         }
     }
