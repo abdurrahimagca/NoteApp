@@ -69,7 +69,7 @@ public class dbHelper extends SQLiteOpenHelper {
 
         // Inserting row
         db.insert(TABLE_USERS, COLUMN_USERNAME, values);
-        System.out.println(getCurrentUserId(username));
+
         db.close(); // Closing database connection
     }
     public boolean isUserValid(String username, String password) {
@@ -81,13 +81,13 @@ public class dbHelper extends SQLiteOpenHelper {
         db.close();
         return result;
     }
-    public List<Note> getNotesByUserId(String userId) {
+    public List<Note> getNotesByUserId(int userId) {
         List<Note> notesList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         String[] projection = {COLUMN_NOTE_HEAD, COLUMN_NOTE_BODY};
         String selection = COLUMN_USER_ID_FK + " = ?";
-        String[] selectionArgs = {userId};
+        String[] selectionArgs = {String.valueOf(userId)};
 
         Cursor cursor = db.query(TABLE_NOTES, projection, selection, selectionArgs, null, null, null);
 
@@ -105,42 +105,40 @@ public class dbHelper extends SQLiteOpenHelper {
 
         return notesList;
     }
-    public void addNote(String noteHead, String noteBody) {
+
+
+    public int getUserIdFromUsername(String refUsername) {
+        int userId = -1; // Default value for user_id
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String[] projection = {COLUMN_USER_ID};
+        String selection = COLUMN_USERNAME + " = ?";
+        String[] selectionArgs = {refUsername};
+
+        Cursor cursor = sqLiteDatabase.query(TABLE_USERS, projection, selection, selectionArgs, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            userId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_USER_ID));
+            cursor.close();
+        }
+
+        return userId;
+    }
+
+    public void addNote(String noteHead, String noteBody, int id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTE_HEAD, noteHead);
         values.put(COLUMN_NOTE_BODY, noteBody);
-        values.put(COLUMN_USER_ID_FK, COLUMN_USER_ID_FK);
-        // belki user id gönderilebilir
+        values.put(COLUMN_USER_ID_FK, id);
+
 
         // Inserting row
         db.insert(TABLE_NOTES, null, values);
         db.close(); // Closing database connection
     }
-    public int getCurrentUserId(String username) {
-        int userId = -1; // Default value if user not found
-        SQLiteDatabase db = this.getReadableDatabase();
 
 
-            String[] projection = {COLUMN_USER_ID};
-        String selection = COLUMN_USERNAME + " = ?";
-        String[] selectionArgs = {username};
-
-        Cursor cursor = db.query(TABLE_USERS, projection, selection, selectionArgs, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            userId = cursor.getInt(0); // Get the user ID
-        }
-
-        cursor.close();
-        db.close();
-
-        return userId;
-    }
-    public String getId(){
-       return COLUMN_USER_ID;
-    }
+    //todo not silme
 
 
 

@@ -19,13 +19,14 @@ public class NewNote extends AppCompatActivity {
         EditText noteHead = findViewById(R.id.note_head);
         EditText noteBody = findViewById(R.id.note_body);
         submit = findViewById(R.id.submit);
+        UserSessionManager userSessionManager = new UserSessionManager(getApplicationContext());
 
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //todo: add data to the tree
-                DbHelper.addNote(noteHead.getText().toString(),noteBody.getText().toString());
+                DbHelper.addNote(noteHead.getText().toString(),noteBody.getText().toString(),userSessionManager.getUserId());
                 startActivity(new Intent(NewNote.this, MainPage.class));
 
 

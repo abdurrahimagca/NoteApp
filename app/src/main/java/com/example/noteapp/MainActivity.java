@@ -23,12 +23,17 @@ public class MainActivity extends AppCompatActivity {
         EditText mail = findViewById(R.id.email_tf);
         EditText pass = findViewById(R.id.password_tf);
         dbHelper DbHelper = new dbHelper(getApplicationContext());
+        //todo shared preferences ugulama kapanırken silinmeli
+
+        //todo kullanıcı giriş yapcağında kontrol edilmeli ve istenmyen türdeki denemeler engellenmeli
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(DbHelper.isUserValid(mail.getText().toString(),pass.getText().toString())){
+                    UserSessionManager userSessionManager = new UserSessionManager(getApplicationContext());
+                    userSessionManager.saveUserId(DbHelper.getUserIdFromUsername(mail.getText().toString()));
                     System.out.println("main act 29");
                   startActivity(new Intent(MainActivity.this, MainPage.class));
                 }

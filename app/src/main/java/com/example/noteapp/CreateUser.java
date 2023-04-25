@@ -26,6 +26,7 @@ public class CreateUser extends AppCompatActivity {
             public void onClick(View view) {
                 //todo: create a new account
                 dbHelper d = new dbHelper(getApplicationContext());
+                //todo: mail formatina uygunluk kontrol edilmeli ve parola 6 hane uzunluğunda olmalı
                 d.createUser(mail.getText().toString(), pass.getText().toString());
                 if(d.isUserValid(mail.getText().toString(),pass.getText().toString())){
                     System.out.println("returned true this time");

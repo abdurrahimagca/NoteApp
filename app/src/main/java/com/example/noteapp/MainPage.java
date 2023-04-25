@@ -29,10 +29,11 @@ public class MainPage extends AppCompatActivity {
         Button newNote = findViewById(new_button);
         RecyclerView recyclerView  = findViewById(R.id.recyclerView);
         databaseHelper = new dbHelper(this);
+        UserSessionManager userSessionManager = new UserSessionManager(getApplicationContext());
 
         // Retrieve notes for a specific user ID from the database
        // replace with the desired user ID
-        notesList = databaseHelper.getNotesByUserId(databaseHelper.getId());
+        notesList = databaseHelper.getNotesByUserId(userSessionManager.getUserId());
 
 
 
@@ -44,7 +45,7 @@ public class MainPage extends AppCompatActivity {
 
 
 
-
+    //todo nota basılı tutulunca silinmeli ya da sil butonu eklenmeli
 
         newNote.setOnClickListener(new View.OnClickListener() {
             @Override
