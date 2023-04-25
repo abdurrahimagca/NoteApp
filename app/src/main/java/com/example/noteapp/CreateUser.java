@@ -25,8 +25,11 @@ public class CreateUser extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //todo: create a new account
-                dbHelper d = new dbHelper(getApplicationContext(), null,null,1);
+                dbHelper d = new dbHelper(getApplicationContext());
                 d.createUser(mail.getText().toString(), pass.getText().toString());
+                if(d.isUserValid(mail.getText().toString(),pass.getText().toString())){
+                    System.out.println("returned true this time");
+                }
                 startActivity(new Intent(CreateUser.this, MainActivity.class));
             }
         });

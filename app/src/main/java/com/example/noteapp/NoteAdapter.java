@@ -9,17 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
     Context context;
-    ArrayList<Note> note;
+    List<Note> note;
 
-    public NoteAdapter(Context context, ArrayList<Note> note) {
+    public NoteAdapter(Context context, List<Note> note) {
         this.context = context;
         this.note = note;
     }
-
 
 
 
@@ -30,9 +29,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NoteAdapter.MyViewHolder holder, int position) {
-        holder.notetv.setText(note.get(position).getNoteInfo());
-        holder.noteHeader.setText(note.get(position).getNoteHead());
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        Note noteL = note.get(position);
+
+        holder.noteHeader.setText(noteL.getNoteHead());
+        holder.notetv.setText(noteL.getNoteHead());
 
     }
 

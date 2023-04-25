@@ -22,16 +22,15 @@ public class MainActivity extends AppCompatActivity {
         Button signupButton = findViewById(R.id.signup);
         EditText mail = findViewById(R.id.email_tf);
         EditText pass = findViewById(R.id.password_tf);
-        dbHelper DbHelper = new dbHelper(getApplicationContext(), null,null, 1);
+        dbHelper DbHelper = new dbHelper(getApplicationContext());
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(DbHelper.isUserValid(String.valueOf(mail), String.valueOf(pass))){
+                if(DbHelper.isUserValid(mail.getText().toString(),pass.getText().toString())){
                     System.out.println("main act 29");
-                    Intent intent = new Intent(MainActivity.this, MainPage.class);
-
+                  startActivity(new Intent(MainActivity.this, MainPage.class));
                 }
                 else{
                     System.out.println("main 34");

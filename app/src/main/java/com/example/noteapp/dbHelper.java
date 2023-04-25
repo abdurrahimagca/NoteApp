@@ -26,8 +26,8 @@ public class dbHelper extends SQLiteOpenHelper {
     private static final String COLUMN_NOTE_BODY = "note_body";
     private static final String COLUMN_USER_ID_FK = "user_id";
 
-    public dbHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory,int version) {
-        super(context, name, factory, version);
+    public dbHelper(@Nullable Context context) {
+        super(context, "mydatabase", null, 1);
     }
 
 
@@ -73,38 +73,30 @@ public class dbHelper extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
     public boolean isUserValid(String username, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-
-        String[] projection = {COLUMN_USER_ID};
-        String selection = COLUMN_USERNAME + " = ? AND " + COLUMN_PASSWORD + " = ?";
-        String[] selectionArgs = {username, password};
-
-        Cursor cursor = db.query(TABLE_USERS, projection, selection, selectionArgs, null, null, null);
-        boolean isValid = cursor.getCount() > 0;
-
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + " = ? AND " + COLUMN_PASSWORD + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{username, password});
+        boolean result = cursor.getCount() > 0;
         cursor.close();
         db.close();
-
-        return isValid;
+        return result;
     }
-    public List<String[]> getNotesByUserId(int userId) {
-        List<String[]> notesList = new ArrayList<>();
+    public List<Note> getNotesByUserId(String userId) {
+        List<Note> notesList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         String[] projection = {COLUMN_NOTE_HEAD, COLUMN_NOTE_BODY};
         String selection = COLUMN_USER_ID_FK + " = ?";
-        String[] selectionArgs = {String.valueOf(userId)};
+        String[] selectionArgs = {userId};
 
         Cursor cursor = db.query(TABLE_NOTES, projection, selection, selectionArgs, null, null, null);
 
         // Loop through all rows and add to list
         if (cursor.moveToFirst()) {
             do {
-                String[] note = new String[2];
-                note[0] = cursor.getString(0); // Note Head
-                note[1] = cursor.getString(1); // Note Body
-                notesList.add(note);
+
+
+                notesList.add(new Note(cursor.getString(0),cursor.getString(1)));
             } while (cursor.moveToNext());
         }
 
@@ -113,13 +105,14 @@ public class dbHelper extends SQLiteOpenHelper {
 
         return notesList;
     }
-    public void addNote(String noteHead, String noteBody, int userId) {
+    public void addNote(String noteHead, String noteBody) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTE_HEAD, noteHead);
         values.put(COLUMN_NOTE_BODY, noteBody);
-        values.put(COLUMN_USER_ID_FK, userId);
+        values.put(COLUMN_USER_ID_FK, COLUMN_USER_ID_FK);
+        // belki user id gönderilebilir
 
         // Inserting row
         db.insert(TABLE_NOTES, null, values);
@@ -129,7 +122,8 @@ public class dbHelper extends SQLiteOpenHelper {
         int userId = -1; // Default value if user not found
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] projection = {COLUMN_USER_ID};
+
+            String[] projection = {COLUMN_USER_ID};
         String selection = COLUMN_USERNAME + " = ?";
         String[] selectionArgs = {username};
 
@@ -143,6 +137,9 @@ public class dbHelper extends SQLiteOpenHelper {
         db.close();
 
         return userId;
+    }
+    public String getId(){
+       return COLUMN_USER_ID;
     }
 
 

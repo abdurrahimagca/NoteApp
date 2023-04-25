@@ -7,7 +7,7 @@
     tools:context=".NewNote">
 
     <EditText
-        android:id="@+id/note_text"
+        android:id="@+id/note_body"
         android:layout_width="391dp"
         android:layout_height="407dp"
         android:layout_marginBottom="4dp"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/note_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
@@ -29,7 +29,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Başlık"
-        app:layout_constraintBottom_toTopOf="@+id/note_text"
+        app:layout_constraintBottom_toTopOf="@+id/note_body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

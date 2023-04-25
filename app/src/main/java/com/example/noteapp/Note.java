@@ -1,29 +1,26 @@
 package com.example.noteapp;
 
 public class Note {
-    String noteHead, noteInfo;
 
-    public Note() {
+    private String noteHead;
+    private String noteBody;
 
+    // Constructor
+    public Note(String noteHead, String noteBody) {
+
+        this.noteHead = noteHead;
+        this.noteBody = noteBody;
     }
+
+    // Getters
+
 
     public String getNoteHead() {
         return noteHead;
     }
 
-    public void setNoteHead(String noteHead) {
-        this.noteHead = noteHead;
+    public String getNoteBody() {
+        return noteBody;
     }
-
-    public String getNoteInfo() {
-        return noteInfo;
-    }
-
-    public void setNoteInfo(String noteInfo) {
-        this.noteInfo = noteInfo;
-    }
-
-
-
 
 }
