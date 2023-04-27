@@ -36,6 +36,12 @@
             android:text="@string/note_info"
             android:textSize="14sp" />
 
+        <Button
+            android:id="@+id/note_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

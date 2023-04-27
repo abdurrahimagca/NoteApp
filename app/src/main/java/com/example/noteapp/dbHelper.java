@@ -102,6 +102,7 @@ public class dbHelper extends SQLiteOpenHelper {
 
         cursor.close();
         db.close();
+        //System.out.println("line 105" + notesList.get(1).getNoteHead()+notesList.get(1).getNoteBody());
 
         return notesList;
     }
@@ -129,6 +130,7 @@ public class dbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTE_HEAD, noteHead);
         values.put(COLUMN_NOTE_BODY, noteBody);
+        System.out.println(noteHead + noteBody);
         values.put(COLUMN_USER_ID_FK, id);
 
 
@@ -139,6 +141,25 @@ public class dbHelper extends SQLiteOpenHelper {
 
 
     //todo not silme
+    public String getNoteId(String head){
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String[] projection = {COLUMN_NOTE_ID};
+        String selection = COLUMN_NOTE_HEAD + " = ?";
+        String[] selectionArgs = {head};
+
+        Cursor cursor = sqLiteDatabase.query(TABLE_NOTES, projection, selection, selectionArgs, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+           return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOTE_ID));
+        }
+        return null;
+
+    }
+    public boolean deleteTitle(String id)
+    {
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+         return sqLiteDatabase.delete(TABLE_NOTES, COLUMN_NOTE_ID + "=" + id, null) > 0;
+    }
+
 
 
 

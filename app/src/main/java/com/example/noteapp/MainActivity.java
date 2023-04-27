@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         EditText mail = findViewById(R.id.email_tf);
         EditText pass = findViewById(R.id.password_tf);
         dbHelper DbHelper = new dbHelper(getApplicationContext());
-        //todo shared preferences ugulama kapanırken silinmeli
+
 
         //todo kullanıcı giriş yapcağında kontrol edilmeli ve istenmyen türdeki denemeler engellenmeli
 
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                     userSessionManager.saveUserId(DbHelper.getUserIdFromUsername(mail.getText().toString()));
                     System.out.println("main act 29");
                   startActivity(new Intent(MainActivity.this, MainPage.class));
+
                 }
                 else{
                     System.out.println("main 34");
@@ -46,12 +47,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this,CreateUser.class));
+
             }
         });
 
 
 
 
+    }
+    public void onDestroy(){
+        super.onDestroy();
+        UserSessionManager userSessionManager = new UserSessionManager(getApplicationContext());
+        userSessionManager.logout();
     }
 }
 
