@@ -41,8 +41,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
 
     @Override
     public int getItemCount() {
-        return note.size();
+        if(note!=null){
+            return note.size();
+        }
+        return 0;
+
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         dbHelper DataBaseHelper = new dbHelper(context.getApplicationContext());
@@ -63,6 +68,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
                     Intent intent = new Intent(context,MainPage.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     context.startActivity(intent);
+
+
 
 
 

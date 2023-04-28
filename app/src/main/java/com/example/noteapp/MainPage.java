@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainPage extends AppCompatActivity {
@@ -19,7 +20,7 @@ public class MainPage extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private NoteAdapter notesAdapter;
-    private List<Note> notesList;
+
     private dbHelper databaseHelper;
 
 
@@ -32,10 +33,11 @@ public class MainPage extends AppCompatActivity {
         Button logOut = findViewById(exit_button);
         RecyclerView recyclerView  = findViewById(R.id.recyclerView);
         databaseHelper = new dbHelper(this);
-        UserSessionManager userSessionManager = new UserSessionManager(getApplicationContext());
+        UserSessionManager userSessionManager = new UserSessionManager(this);
+        System.out.println(userSessionManager.getUserId());
+        List<Note> notesList = new ArrayList<>();
 
-        // Retrieve notes for a specific user ID from the database
-       // replace with the desired user ID
+
         notesList = databaseHelper.getNotesByUserId(userSessionManager.getUserId());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         notesAdapter = new NoteAdapter(this, notesList);
@@ -43,7 +45,6 @@ public class MainPage extends AppCompatActivity {
 
 
 
-    //todo nota basılı tutulunca silinmeli ya da sil butonu eklenmeli
 
         newNote.setOnClickListener(new View.OnClickListener() {
             @Override

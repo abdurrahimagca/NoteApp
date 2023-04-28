@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.regex.Pattern;
 
 public class CreateUser extends AppCompatActivity {
 
@@ -21,18 +24,25 @@ public class CreateUser extends AppCompatActivity {
         EditText mail = findViewById(R.id.email_address);
         EditText pass = findViewById(R.id.password);
         submitButton.setOnClickListener(new View.OnClickListener() {
-            //SQLiteDatabase DbHelper = new dbHelper(getApplicationContext(), null, null, 1);
+
             @Override
             public void onClick(View view) {
-                //todo: create a new account
-                dbHelper d = new dbHelper(getApplicationContext());
-                //todo: mail formatina uygunluk kontrol edilmeli ve parola 6 hane uzunluğunda olmalı
-                d.createUser(mail.getText().toString(), pass.getText().toString());
-                if(d.isUserValid(mail.getText().toString(),pass.getText().toString())){
-                    System.out.println("returned true this time");
+                    String mailText = mail.getText().toString();
+                    String passText = pass.getText().toString();
+                if(isValid(mailText,"^(.+)@(.+)$") && pass.length()>5){
+                    new dbHelper(getApplicationContext()).createUser(mailText,passText);
+                    startActivity(new Intent(CreateUser.this, MainActivity.class));
+                    finish();
                 }
-                startActivity(new Intent(CreateUser.this, MainActivity.class));
+                else{
+                    Toast.makeText(CreateUser.this, "lutfen e-mail adresi ve en az 6 haneli şifre girin", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+    public boolean isValid(String mail, String regex){
+        return Pattern.compile(regex)
+                .matcher(mail)
+                .matches();
     }
 }

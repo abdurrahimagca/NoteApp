@@ -82,6 +82,7 @@ public class dbHelper extends SQLiteOpenHelper {
         return result;
     }
     public List<Note> getNotesByUserId(int userId) {
+
         List<Note> notesList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -103,7 +104,7 @@ public class dbHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         //System.out.println("line 105" + notesList.get(1).getNoteHead()+notesList.get(1).getNoteBody());
-
+        System.out.println(notesList);
         return notesList;
     }
 

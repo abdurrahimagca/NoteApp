@@ -54,6 +54,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.5.3'
 
 
+
     // Add the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
 

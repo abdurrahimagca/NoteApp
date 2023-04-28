@@ -28,6 +28,7 @@ public class NewNote extends AppCompatActivity {
                 //todo: add data to the tree
                 DbHelper.addNote(noteHead.getText().toString(),noteBody.getText().toString(),userSessionManager.getUserId());
                 startActivity(new Intent(NewNote.this, MainPage.class));
+                finish();
 
 
             }

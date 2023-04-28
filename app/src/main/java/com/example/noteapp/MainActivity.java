@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         dbHelper DbHelper = new dbHelper(getApplicationContext());
 
 
-        //todo kullanıcı giriş yapcağında kontrol edilmeli ve istenmyen türdeki denemeler engellenmeli
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -34,12 +34,14 @@ public class MainActivity extends AppCompatActivity {
                 if(DbHelper.isUserValid(mail.getText().toString(),pass.getText().toString())){
                     UserSessionManager userSessionManager = new UserSessionManager(getApplicationContext());
                     userSessionManager.saveUserId(DbHelper.getUserIdFromUsername(mail.getText().toString()));
-                    System.out.println("main act 29");
-                  startActivity(new Intent(MainActivity.this, MainPage.class));
+
+                   startActivity(new Intent(MainActivity.this, MainPage.class));
+
+
 
                 }
                 else{
-                    System.out.println("main 34");
+                    Toast.makeText(MainActivity.this, "Geçersiz e-mail veya şifre", Toast.LENGTH_SHORT).show();
                 }
             }
         });
